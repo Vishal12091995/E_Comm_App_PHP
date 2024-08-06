@@ -38,32 +38,38 @@
 
                         if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                             // echo $_SESSION["cart"];
-                            $index = 1;
-                            foreach ($_SESSION['cart'] as $value) {
+                            $ptotal = 0;
+                            foreach ($_SESSION['cart'] as $key=> $value) {
                                 $total = $value['p_price'] * $value['p_qty'];
+                                $ptotal+= $total;
                                 echo "
-                                    <form action='insert_cart.php' method='post'>
-                                    <tr>
-                                        <td>$index</td>
-                                        <td>$value[p_name]</td>
-                                        <td>$value[p_price]</td>
-                                        <td>$value[p_qty]</td>
-                                        <td>$total</td>
-                                        <td><button name='remove' class='btn btn-warning'>Edit</button></td>
-                                        <td><button class='btn btn-danger'>Delete</button></td>
-                                    </tr>
+                                    <form action='insert_cart.php' method='POST'>
+                                        <tr>
+                                            <td>$key</td>
+                                            <td><input type='text' name='p_name' value='$value[p_name]'>$value[p_name]</td>
+                                            <td><input type='text' name='p_price' value='$value[p_price]'>$value[p_price]</td>
+                                            <td><input type='number' name='p_qty' value='$value[p_qty]'></td>
+                                            <td>$total</td>
+                                            <td><button name='remove' class='btn btn-warning'>Delete</button></td>
+                                            <td><button name='update' class='btn btn-danger'>Update</button></td>
+                                            <input type='hidden' name='item' value='$value[p_name]'>
+                                        </tr>
+
                                     </form>
                                     ";
-                                $index++;
                             }
                         } else {
                             echo "Error in getting value";
                         }
                         ?>
-
-
                     </tbody>
                 </table>
+            </div>
+            <div class="col-lg-2">
+                <h1>Total:</h1>
+                <h1 class="bg-danger text-center text-white"><?php
+                echo $total;
+                ?></h1>
             </div>
         </div>
     </div>
